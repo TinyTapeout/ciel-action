@@ -1,5 +1,5 @@
-name: 'Volare Action'
-description: 'GitHub action for installing open source PDKs using volare'
+name: 'Ciel Action'
+description: 'GitHub action for installing open source PDKs using ciel'
 branding:
   color: purple
   icon: terminal
@@ -12,8 +12,8 @@ inputs:
     description: 'PDK Version (e.g. 12df12e2e74145e31c5a13de02f9a1e176b56e67)'
     required: true
   pdk_root:
-    description: 'PDK Directory (e.g. ~/.volare)'
-    default: '~/.volare'
+    description: 'PDK Directory (e.g. ~/.ciel)'
+    default: '~/.ciel'
 
 runs:
   using: 'composite'
@@ -25,12 +25,12 @@ runs:
         path: ${{ inputs.pdk_root }}
         key: ${{ runner.os }}-pdk-${{ inputs.pdk_name }}-${{ inputs.pdk_version }}
 
-    - name: Install Sky130 PDK
+    - name: Install ${{ inputs.pdk_name }} PDK
       shell: bash
       if: steps.cache-pdk.outputs.cache-hit != 'true'
       run: |
-        pip3 install volare==0.19.1
-        volare enable --pdk "${{ inputs.pdk_name }}" "${{ inputs.pdk_version }}"
+        pip3 install ciel==2.2.0
+        ciel enable --pdk "${{ inputs.pdk_name }}" "${{ inputs.pdk_version }}"
       env:
         PDK_ROOT: ${{ inputs.pdk_root }}
         PIP_BREAK_SYSTEM_PACKAGES: 1
