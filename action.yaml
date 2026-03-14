@@ -20,7 +20,7 @@ runs:
   steps:
     - name: Cache
       id: cache-pdk
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ${{ inputs.pdk_root }}
         key: ${{ runner.os }}-pdk-${{ inputs.pdk_name }}-${{ inputs.pdk_version }}
