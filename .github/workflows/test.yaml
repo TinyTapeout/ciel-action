@@ -1,0 +1,38 @@
+name: test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - pdk: sky130A
+            version: 0536d02d875c8f67dd7cca3902ac457e62f20005
+          - pdk: gf180mcuD
+            version: e8daeda73ca8f5814dbc0b11d1d05802251a3750
+          - pdk: ihp-sg13g2
+            version: c4b8b4e5e7a05f375cca3815d51b3a37721fbf5c
+          - pdk: ihp-sg13cmos5l
+            version: 89d42ee6d2fd9b50b86a1aada6fee6673c3e6008
+
+    runs-on: ubuntu-26.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install ${{ matrix.pdk }} PDK
+        uses: ./
+        with:
+          pdk_name: ${{ matrix.pdk }}
+          pdk_version: ${{ matrix.version }}
+          pdk_root: /home/runner/pdk
+
+      - name: Check installed PDK
+        run: |
+          test -d "/home/runner/pdk/${{ matrix.pdk }}/libs.ref"
+          grep "${{ matrix.version }}" "/home/runner/pdk/${{ matrix.pdk }}/SOURCES"
