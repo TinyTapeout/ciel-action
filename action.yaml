@@ -14,6 +14,9 @@ inputs:
   pdk_root:
     description: 'PDK Directory (e.g. ~/.ciel)'
     default: '~/.ciel'
+  ciel_version:
+    description: 'Version of ciel to install'
+    default: '3.2.0'
 
 runs:
   using: 'composite'
@@ -29,8 +32,11 @@ runs:
       shell: bash
       if: steps.cache-pdk.outputs.cache-hit != 'true'
       run: |
-        pip3 install ciel==2.2.0
-        ciel enable --pdk "${{ inputs.pdk_name }}" "${{ inputs.pdk_version }}"
+        pip3 install "ciel==${CIEL_VERSION}"
+        ciel enable --pdk "${PDK_NAME}" "${PDK_VERSION}"
       env:
         PDK_ROOT: ${{ inputs.pdk_root }}
+        PDK_NAME: ${{ inputs.pdk_name }}
+        PDK_VERSION: ${{ inputs.pdk_version }}
+        CIEL_VERSION: ${{ inputs.ciel_version }}
         PIP_BREAK_SYSTEM_PACKAGES: 1

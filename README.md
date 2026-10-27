@@ -15,6 +15,17 @@ Add the following step to your workflow:
     pdk_root: /home/runner/pdk
 ```
 
+IHP PDKs use the variant name, e.g. `ihp-sg13g2` or `ihp-sg13cmos5l`:
+
+```yaml
+- name: Install IHP SG13CMOS5L PDK
+  uses: TinyTapeout/ciel-action@v1
+  with:
+    pdk_name: ihp-sg13cmos5l
+    pdk_version: 89d42ee6d2fd9b50b86a1aada6fee6673c3e6008
+    pdk_root: /home/runner/pdk
+```
+
 ## Inputs
 
 | Name          | Description                       | Required | Default |
@@ -22,6 +33,7 @@ Add the following step to your workflow:
 | `pdk_name`    | The name of the PDK to install    | No       | sky130  |
 | `pdk_version` | The version of the PDK to install | Yes      |         |
 | `pdk_root`    | Where to install to PDK           | No       | ~/.ciel |
+| `ciel_version`| The version of ciel to use        | No       | 3.2.0   |
 
 ## Updating the action
 
